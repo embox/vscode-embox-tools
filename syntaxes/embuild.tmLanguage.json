@@ -1,0 +1,539 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "Embuild",
+	"patterns": [
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#annotations"
+		},
+		{
+			"include": "#configurations"
+		},
+		{
+			"include": "#packages"
+		},
+		{
+			"include": "#module_def"
+		},
+		{
+			"include": "#annotation_def"
+		}
+	],
+	"repository": {
+		"packages": {
+			"patterns": [
+				{
+					"begin": "\\b(package)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.modifier.package.embuild"
+						}
+					},
+					"end": "$",
+					"patterns": [
+						{
+							"include": "#modules"
+						}
+					],
+					"name": "meta.module.extends.embuild"
+				}
+			]
+		},
+		"configurations": {
+			"patterns": [
+				{
+					"begin": "\\b(configuration)(\\s+conf|)(?:\\s|{)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.embuild"
+						},
+						"2": {
+							"name": "keyword.other.embuild"
+						}
+					},
+					"end": "}",
+					"patterns": [
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#annotations"
+						},
+						{
+							"include": "#includes"
+						}
+					],
+					"name": "meta.definition.configuration.embuild"
+				}
+			]
+		},
+		"includes": {
+			"patterns": [
+				{
+					"begin": "\\b(include)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.embuild"
+						}
+					},
+					"end": "$",
+					"patterns": [
+						{
+							"include": "#modules"
+						},
+						{
+							"begin": "\\(",
+							"end": "\\)",
+							"patterns": [
+								{
+									"include": "#comments"
+								},
+								{
+									"include": "#constants"
+								},
+								{
+									"include": "#parameters"
+								},
+								{
+									"include": "#modules"
+								}
+							],
+							"name": "meta.module.include.braces.embuild"
+						}
+					],
+					"name": "meta.module.include.embuild"
+				}
+			]
+		},
+		"annotation_def": {
+			"patterns": [
+				{
+					"begin": "\\b(annotation)(\\s+\\w+)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.annotation.embuild"
+						},
+						"2": {
+							"name": "entity.name.type.annotation.embuild"
+						}
+					},
+					"end": "}",
+					"patterns": [
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#variables"
+						}
+					],
+					"name": "meta.definition.module.embuild"
+				}
+			]
+		},
+		"module_def": {
+			"patterns": [
+				{
+					"begin": "\\b(abstract\\s+|static\\s+|)(module)(\\s+\\w+)",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.modifier.abstract.embuild"
+						},
+						"2": {
+							"name": "storage.type.module.embuild"
+						},
+						"3": {
+							"name": "entity.name.type.module.embuild"
+						}
+					},
+					"end": "}",
+					"patterns": [
+						{
+							"begin": "\\b(extends)\\b",
+							"beginCaptures": {
+								"1": {
+									"name": "storage.modifier.extends.embuild"
+								}
+							},
+							"end": "{",
+							"patterns": [
+								{
+									"include": "#modules"
+								}
+							],
+							"name": "meta.module.extends.embuild"
+						},
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#module_keywords"
+						},
+						{
+							"include": "#annotations"
+						}
+					],
+					"name": "meta.definition.module.embuild"
+				}
+			]
+		},
+		"module_keywords": {
+			"patterns": [
+				{
+					"match": "\\b(source)\\b",
+					"name": "keyword.other.embuild"
+				},
+				{
+					"begin": "\\b(depends)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.embuild"
+						}
+					},
+					"end": "$",
+					"patterns": [
+						{
+							"include": "#modules"
+						}
+					],
+					"name": "meta.module.depends.embuild"
+				},
+				{
+					"include": "#options"
+				}
+			]
+		},
+		"options": {
+			"patterns": [
+				{
+					"begin": "\\b(option)",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.option.embuild"
+						}
+					},
+					"end": "$",
+					"patterns": [
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#variables"
+						}
+					],
+					"name": "meta.declaration.option.embuild"
+				}
+			]
+		},
+		"annotations": {
+			"patterns": [
+				{
+					"begin": "(@\\w+)\\s*\\(",
+					"beginCaptures": {
+						"1": {
+							"name": "storage.type.annotation.java"
+						}
+					},
+					"end": "(\\))",
+					"endCaptures": {
+						"1": {
+							"name": "punctuation.definition.annotation-arguments.end.embuild"
+						}
+					},
+					"name": "meta.declaration.annotation.embuild",
+					"patterns": [
+						{
+							"include": "#comments"
+						},
+						{
+							"include": "#constants"
+						},
+						{
+							"include": "#parameters"
+						},
+						{
+							"include": "#modules"
+						},
+						{
+							"match": ",",
+							"name": "punctuation.definition.seperator.embuild"
+						}
+					]
+				},
+				{
+					"match": "@\\w*\\b",
+					"name": "storage.type.annotation.java"
+				}
+			]
+		},
+		"modules": {
+			"patterns": [
+				{
+					"match": "\\b(embox.)(arch)([\\w\\.]+|)\\b",
+					"captures": {
+						"1": {
+							"name": "storage.modifier.package.java"
+						},
+						"2": {
+							"name": "keyword.control.directive.embuild"
+						},
+						"3": {
+							"name": "storage.modifier.package.java"
+						}
+					},
+					"name": "meta.module.arch.embuild"
+				},
+				{
+					"match": "\\b(embox.)(driver)([\\w\\.]+|)\\b",
+					"captures": {
+						"1": {
+							"name": "storage.modifier.package.java"
+						},
+						"2": {
+							"name": "entity.name.function.embuild"
+						},
+						"3": {
+							"name": "storage.modifier.package.java"
+						}
+					},
+					"name": "meta.module.driver.embuild"
+				},
+				{
+					"match": "\\b([\\w\\.]+)\\b",
+					"name": "storage.modifier.package.java"
+				}
+			]
+		},
+		"parameters": {
+			"match": "\\b(\\w+)\\s*(?:\\=)",
+			"captures": {
+				"1": {
+					"name": "variable.parameter.embuild"
+				}
+			},
+			"name": "meta.parameter.embuild"
+		},
+		"variables": {
+			"match": "\\b(boolean|number|string|Module)(\\s+\\w+|)\\b",
+			"captures": {
+				"1": {
+					"name": "storage.type.primitive.java"
+				},
+				"2": {
+					"name": "variable.parameter.embuild"
+				}
+			},
+			"name": "meta.variable.embuild"
+		},
+		"constants": {
+			"patterns": [
+				{
+					"match": "\\b(true|false)\\b",
+					"name": "constant.language.embuild"
+				},
+				{
+					"match": "((0(x|X)[0-9a-fA-F]*)|(\\+|-)?\\b(([0-9]+\\.?[0-9]*)|(\\.[0-9]+))((e|E)(\\+|-)?[0-9]+)?)([LlFfUuDdg]|UL|ul)?\\b",
+					"name": "constant.numeric.embuild"
+				},
+				{
+					"include": "#strings"
+				}
+			]
+		},
+		"string-quoted-double": {
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.embuild"
+				}
+			},
+			"end": "\"",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.embuild"
+				}
+			},
+			"name": "string.quoted.double.embuild",
+			"patterns": [
+				{
+					"include": "#string-quoted-double-contents"
+				}
+			]
+		},
+		"string-quoted-double-contents": {
+			"patterns": [
+				{
+					"match": "\\\\.",
+					"name": "constant.character.escape.embuild"
+				},
+				{
+					"applyEndPatternLast": 1,
+					"begin": "\\$\\w",
+					"end": "(?=\\W)",
+					"name": "variable.other.interpolated.embuild",
+					"patterns": [
+						{
+							"match": "\\w",
+							"name": "variable.other.interpolated.embuild"
+						},
+						{
+							"match": "\\.",
+							"name": "keyword.other.dereference.embuild"
+						}
+					]
+				},
+				{
+					"begin": "\\$\\{",
+					"captures": {
+						"0": {
+							"name": "punctuation.section.embedded.embuild"
+						}
+					},
+					"end": "\\}",
+					"name": "source.embuild.embedded.source",
+					"patterns": [
+						{
+							"include": "#nest_curly"
+						}
+					]
+				}
+			]
+		},
+		"string-quoted-double-multiline": {
+			"begin": "\"\"\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.embuild"
+				}
+			},
+			"end": "\"\"\"",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.embuild"
+				}
+			},
+			"name": "string.quoted.double.multiline.embuild",
+			"patterns": [
+				{
+					"include": "#string-quoted-double-contents"
+				}
+			]
+		},
+		"string-quoted-single": {
+			"begin": "'",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.embuild"
+				}
+			},
+			"end": "'",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.embuild"
+				}
+			},
+			"name": "string.quoted.single.embuild",
+			"patterns": [
+				{
+					"include": "#string-quoted-single-contents"
+				}
+			]
+		},
+		"string-quoted-single-contents": {
+			"patterns": [
+				{
+					"match": "\\\\.",
+					"name": "constant.character.escape.embuild"
+				}
+			]
+		},
+		"string-quoted-single-multiline": {
+			"begin": "'''",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.embuild"
+				}
+			},
+			"end": "'''",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.end.embuild"
+				}
+			},
+			"name": "string.quoted.single.multiline.embuild",
+			"patterns": [
+				{
+					"include": "#string-quoted-single-contents"
+				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"include": "#string-quoted-double-multiline"
+				},
+				{
+					"include": "#string-quoted-single-multiline"
+				},
+				{
+					"include": "#string-quoted-double"
+				},
+				{
+					"include": "#string-quoted-single"
+				}
+			]
+		},
+		"comment-block": {
+			"begin": "/\\*",
+			"captures": {
+				"0": {
+					"name": "punctuation.definition.comment.embuild"
+				}
+			},
+			"end": "\\*/",
+			"name": "comment.block.embuild"
+		},
+		"comments": {
+			"patterns": [
+				{
+					"captures": {
+						"0": {
+							"name": "punctuation.definition.comment.embuild"
+						}
+					},
+					"match": "/\\*\\*/",
+					"name": "comment.block.empty.embuild"
+				},
+				{
+					"include": "#comment-block"
+				},
+				{
+					"captures": {
+						"1": {
+							"name": "punctuation.definition.comment.embuild"
+						}
+					},
+					"match": "(//).*$\\n?",
+					"name": "comment.line.double-slash.embuild"
+				}
+			]
+		}
+	},
+	"scopeName": "source.embuild"
+}

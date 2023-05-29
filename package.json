@@ -1,0 +1,44 @@
+{
+	"name": "embox-tools",
+	"publisher": "embox",
+	"displayName": "Embox Tools",
+	"description": "",
+	"version": "0.0.1",
+	"icon": "res/embox-logo-dark.png",
+	"engines": {
+		"vscode": "^1.78.0"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"contributes": {
+		"languages": [
+			{
+				"id": "embuild",
+				"icon": {
+					"dark": "res/embox-logo-dark.png",
+					"light": "res/embox-logo-light.png"
+				},
+				"aliases": [
+					"Embuild",
+					"embuild"
+				],
+				"extensions": [
+					".my"
+				],
+				"filenames": [
+					"Mybuild",
+					"mods.conf"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "embuild",
+				"scopeName": "source.embuild",
+				"path": "./syntaxes/embuild.tmLanguage.json"
+			}
+		]
+	}
+}
