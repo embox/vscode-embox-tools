@@ -5,6 +5,9 @@
 	"description": "",
 	"version": "0.0.1",
 	"icon": "res/embox-logo-dark.png",
+	"repository": {
+		"url": "https://github.com/embox/vscode-embox-tools"
+	},
 	"engines": {
 		"vscode": "^1.78.0"
 	},
