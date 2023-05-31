@@ -87,6 +87,9 @@
 					"end": "$",
 					"patterns": [
 						{
+							"include": "#comments"
+						},
+						{
 							"include": "#modules"
 						},
 						{
